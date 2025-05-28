@@ -51,8 +51,10 @@
 		662D1A662DE731F300E18E92 /* Cogs */ = {
 			isa = PBXGroup;
 			children = (
+				662D1A772DE7345300E18E92 /* ViewModels */,
+				662D1A762DE7344800E18E92 /* Views */,
+				662D1A752DE7343A00E18E92 /* Models */,
 				662D1A672DE731F300E18E92 /* CogsApp.swift */,
-				662D1A692DE731F300E18E92 /* ContentView.swift */,
 				662D1A6B2DE731F700E18E92 /* Assets.xcassets */,
 				662D1A6D2DE731F700E18E92 /* Preview Content */,
 			);
@@ -65,6 +67,28 @@
 				662D1A6E2DE731F700E18E92 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		662D1A752DE7343A00E18E92 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		662D1A762DE7344800E18E92 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				662D1A692DE731F300E18E92 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		662D1A772DE7345300E18E92 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
