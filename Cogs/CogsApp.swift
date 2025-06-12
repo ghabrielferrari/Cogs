@@ -11,7 +11,7 @@ import SwiftUI
 struct CogsApp: App {
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            IdeasView()
         }
     }
 }
