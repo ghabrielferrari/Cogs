@@ -1,43 +1,79 @@
-//
-//  ContentView.swift
-//  Cogs
-//
-//  Created by Aluno 17 on 28/05/25.
-//
-
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
-@State private var Tag: String = ""
-
+    @Environment(\.managedObjectContext) private var viewContext
+    @State private var tagInput: String = ""
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
+        animation: .default)
+    private var tags: FetchedResults<Tag>
+    
     var body: some View {
-        VStack{
+        VStack {
             Text("This is a test Core Data App!")
                 .padding()
-            HStack{
-                TextField("Tag name", text: $Tag)
+            
+            HStack {
+                TextField("Tag name", text: $tagInput)
                     .disableAutocorrection(true)
                     .textFieldStyle(.roundedBorder)
                     .padding()
-                Button(action:{
+                
+                Button(action: {
                     saveTag()
-                }){
+                }) {
                     Image(systemName: "plus.circle.fill")
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(60)
                 }
-                .disabled(Tag.isEmpty)
+                .disabled(tagInput.isEmpty)
                 .padding()
             }
             
+            // Display saved tags
+            List {
+                ForEach(tags) { tag in
+                    HStack {
+                        Text(tag.name ?? "Unknown")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .contentShape(Rectangle())
+                        
+                        Button(action: {
+                            deleteTag(tag)
+                        }) {
+                            Image(systemName: "trash.fill")
+                                .foregroundColor(.red)
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                    }
+                }
+            }
         }
     }
-}
-
-private func saveTag(){
     
+    private func saveTag() {
+        let newTag = Tag(context: viewContext)
+        newTag.name = tagInput
+        
+        do {
+            try viewContext.save()
+            tagInput = ""
+        } catch {
+            print("Failed to save tag: \(error.localizedDescription)")
+        }
+    }
+    
+    private func deleteTag(_ tag: Tag) {
+        viewContext.delete(tag)
+        do {
+            try viewContext.save()
+        } catch {
+            print("Failed to delete tag: \(error.localizedDescription)")
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
