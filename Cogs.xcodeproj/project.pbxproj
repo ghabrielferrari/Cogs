@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		661BFFA82DF9CE6800026699 /* IdeasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661BFFA72DF9CE6700026699 /* IdeasView.swift */; };
+		661BFFAE2DFB0BE600026699 /* IdeasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661BFFAD2DFB0BE600026699 /* IdeasModel.swift */; };
+		661BFFB02DFB0C0F00026699 /* IdeasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661BFFAF2DFB0C0F00026699 /* IdeasViewModel.swift */; };
 		662D1A682DE731F300E18E92 /* CogsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662D1A672DE731F300E18E92 /* CogsApp.swift */; };
 		662D1A6A2DE731F300E18E92 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662D1A692DE731F300E18E92 /* ContentView.swift */; };
 		662D1A6C2DE731F700E18E92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662D1A6B2DE731F700E18E92 /* Assets.xcassets */; };
@@ -19,6 +21,8 @@
 
 /* Begin PBXFileReference section */
 		661BFFA72DF9CE6700026699 /* IdeasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeasView.swift; sourceTree = "<group>"; };
+		661BFFAD2DFB0BE600026699 /* IdeasModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeasModel.swift; sourceTree = "<group>"; };
+		661BFFAF2DFB0C0F00026699 /* IdeasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeasViewModel.swift; sourceTree = "<group>"; };
 		662D1A642DE731F300E18E92 /* Cogs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cogs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		662D1A672DE731F300E18E92 /* CogsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CogsApp.swift; sourceTree = "<group>"; };
 		662D1A692DE731F300E18E92 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				662D1A7E2DE736FD00E18E92 /* UserModel.swift */,
+				661BFFAD2DFB0BE600026699 /* IdeasModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -99,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				662D1A7C2DE736F200E18E92 /* UserViewModel.swift */,
+				661BFFAF2DFB0C0F00026699 /* IdeasViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -174,8 +180,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				662D1A6A2DE731F300E18E92 /* ContentView.swift in Sources */,
+				661BFFB02DFB0C0F00026699 /* IdeasViewModel.swift in Sources */,
 				662D1A7D2DE736F300E18E92 /* UserViewModel.swift in Sources */,
 				662D1A7F2DE736FD00E18E92 /* UserModel.swift in Sources */,
+				661BFFAE2DFB0BE600026699 /* IdeasModel.swift in Sources */,
 				662D1A842DE73E2100E18E92 /* LoginView.swift in Sources */,
 				662D1A682DE731F300E18E92 /* CogsApp.swift in Sources */,
 				661BFFA82DF9CE6800026699 /* IdeasView.swift in Sources */,

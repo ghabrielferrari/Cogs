@@ -1,58 +1,45 @@
 import SwiftUI
 
+// MARK: - Main View
 struct IdeasView: View {
-    // Tags disponíveis para filtro
-    private let tags = ["Liderança", "Marketing", "Empreendimento", "Finanças", "Produtividade", "Criatividade"]
-    @State private var selectedTag: String = "Liderança"
+    // MARK: - Properties
+    @StateObject private var viewModel = IdeasViewModel()
     
-    // Dados de exemplo para os post-its
-    @State private var postIts: [PostIt] = [
-        PostIt(id: 1, text: "Ideias demais aí como eu tenho ideias", tag: "Liderança", color: .yellow),
-        PostIt(id: 2, text: "Estratégia de redes sociais", tag: "Marketing", color: .green),
-        PostIt(id: 3, text: "Plano de negócios 2025", tag: "Empreendimento", color: .blue),
-        PostIt(id: 4, text: "Nova campanha publicitária", tag: "Marketing", color: .pink),
-        PostIt(id: 5, text: "Controle de gastos mensais", tag: "Finanças", color: .purple)
-    ]
+    // MARK: - Constants
+    private enum Constants {
+        static let postItSize = CGSize(width: 160, height: 120)
+        static let cornerRadius: CGFloat = 8
+        static let shadowRadius: CGFloat = 3
+        static let spacing: CGFloat = 20
+        static let tagSpacing: CGFloat = 12
+    }
     
-    // Anotações do usuário
-    @State private var notes: [String] = [
-        "Aqui tem uma anotação do usuário, bla bla bla, ter um empreendimento",
-        "Aqui tem uma anotação do usuário, bla bla bla, ter um empreendimento",
-        "Reunião com equipe de marketing na próxima terça",
-        "Preciso revisar o orçamento do projeto"
-    ]
-    
+    // MARK: - Main Body
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
-                    // Seção de Tags (Scroll horizontal)
+                VStack(spacing: Constants.spacing) {
                     tagsSection
-                    
-                    // Seção de Post-its (Grid de 2 linhas)
                     postItsGridSection
-                    
-                    // Seção de Anotações
                     notesSection
-                    
                     Spacer()
                 }
                 .padding()
             }
             .navigationTitle("Ideias")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
     
-    // MARK: - Componentes
-    
+    // MARK: - View Components
     private var tagsSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
-                ForEach(tags, id: \.self) { tag in
+            HStack(spacing: Constants.tagSpacing) {
+                ForEach(Tag.allCases, id: \.self) { tag in
                     TagView(
-                        title: tag,
-                        isSelected: selectedTag == tag,
-                        action: { selectedTag = tag }
+                        title: tag.rawValue,
+                        isSelected: viewModel.selectedTag == tag,
+                        action: { viewModel.selectTag(tag) }
                     )
                 }
             }
@@ -61,16 +48,14 @@ struct IdeasView: View {
     }
     
     private var postItsGridSection: some View {
-        let filteredPostIts = postIts.filter { selectedTag == "Todas" || $0.tag == selectedTag }
-        let chunkedPostIts = filteredPostIts.chunked(into: 2) // 2 itens por linha
-        
-        return VStack(spacing: 16) {
-            ForEach(chunkedPostIts.indices, id: \.self) { rowIndex in
+        VStack(spacing: 16) {
+            ForEach(viewModel.chunkedPostIts().indices, id: \.self) { rowIndex in
                 HStack(spacing: 16) {
-                    ForEach(chunkedPostIts[rowIndex]) { postIt in
+                    ForEach(viewModel.chunkedPostIts()[rowIndex], id: \.id) { postIt in
                         PostItView(postIt: postIt)
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading) // Alinha à esquerda
             }
         }
         .padding(.vertical, 8)
@@ -79,38 +64,19 @@ struct IdeasView: View {
     private var notesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Anotações")
-                .font(.largeTitle)
+                .font(.title)
                 .fontWeight(.bold)
                 .padding(.bottom, 4)
-            
             VStack(spacing: 12) {
-                ForEach(notes.indices, id: \.self) { index in
-                    NoteView(text: notes[index])
+                ForEach(viewModel.notes, id: \.self) { note in
+                    NoteView(text: note)
                 }
             }
         }
     }
 }
 
-// MARK: - Modelos e Extensões
-
-struct PostIt: Identifiable {
-    let id: Int
-    let text: String
-    let tag: String
-    let color: Color
-}
-
-extension Array {
-    func chunked(into size: Int) -> [[Element]] {
-        return stride(from: 0, to: count, by: size).map {
-            Array(self[$0 ..< Swift.min($0 + size, count)])
-        }
-    }
-}
-
-// MARK: - Componentes Reutilizáveis
-
+// MARK: - Component Views
 struct TagView: View {
     let title: String
     let isSelected: Bool
@@ -157,14 +123,12 @@ struct NoteView: View {
             Image(systemName: "note.text")
                 .foregroundColor(.gray)
                 .padding(.leading, 8)
-            
             Text(text)
                 .font(.body)
                 .multilineTextAlignment(.leading)
                 .padding(.vertical, 12)
                 .padding(.horizontal, 8)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
             Image(systemName: "chevron.right")
                 .foregroundColor(.gray)
                 .padding(.trailing, 8)
@@ -179,9 +143,16 @@ struct NoteView: View {
 }
 
 // MARK: - Preview
-
 struct IdeasView_Previews: PreviewProvider {
     static var previews: some View {
         IdeasView()
+    }
+}
+
+// MARK: - Extensions
+extension Sequence where Element: Hashable {
+    func uniqued() -> [Element] {
+        var seen: Set<Element> = []
+        return filter { seen.insert($0).inserted }
     }
 }
